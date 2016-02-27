@@ -1,4 +1,4 @@
-angular.module('ionicApp', ['ionic'])
+angular.module('ionicApp', ['ionic', 'uiGmapgoogle-maps'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -47,22 +47,25 @@ angular.module('ionicApp', ['ionic'])
       url:"/pgevento",
       views: {
        'menuContent':{
-        templateUrl:"templates/pgevento.html"
+        templateUrl:"templates/pgevento.html",
         controller: "EventoCtrl"
        } 
       }
     })
+	.state('eventmenu.pgmapa',{
+		url:"/pgmapa",
+		views:{
+        'menuContent':{
+		templateUrl:"templates/pgmapa.html",
+		controller:"MapaCtrl"	
+	  } 		
+	 }
+	})	
   $urlRouterProvider.otherwise("/event/home");
 })
 
 .controller('MainCtrl', function($scope, $ionicSideMenuDelegate) {
-  $scope.attendees = [
-    { firstname: 'Nicolas', lastname: 'Cage' },
-    { firstname: 'Jean-Claude', lastname: 'Van Damme' },
-    { firstname: 'Keanu', lastname: 'Reeves' },
-    { firstname: 'Steven', lastname: 'Seagal' }
-  ];
-  
+ 
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };
@@ -98,7 +101,7 @@ angular.module('ionicApp', ['ionic'])
   $scope.startApp = function() {
     $state.go('home');
   };
-  $scope.next = function() {
+  $scope.next = function() {	
     $ionicSlideBoxDelegate.next();
   };
   $scope.previous = function() {
@@ -121,17 +124,28 @@ angular.module('ionicApp', ['ionic'])
 
 .controller("HomeCtrl", function($scope, $http){
   $http.get("http://localhost:8080/ifeventos/noticia/loadJson")
-  .then(function (response) {$scope.noticias = response.data.records;});
+  .then(function (response) {
+	  console.log(response.data);
+	  $scope.noticias = response.data.list;
+	  });
 })
-
+	
 
 .controller("EventoCtrl", function($scope, $http){
-  $http.get("http://localhost:8080/ifeventos/evento/loadJson")
+  $http.get("http://www.w3schools.com/angular/customers.php")
   .then(function (response){$scope.eventos = response.data.records;});
   })
 
 
 .controller("OrganizadorCtrl", function($scope, $http){
-  $http.get("http://localhost:8080/ifeventos/organizador/loadJson")
+  $http.get("http://www.w3schools.com/angular/customers.php")
   .then(function (response) {$scope.organizadores = response.data.records;});
+
+ })
+ 
+.controller("MapaCtrl", function($scope){
+	 
+  $scope.map = {center:{latitude:45, longitude: -73}, zoom:8};
+
  });
+

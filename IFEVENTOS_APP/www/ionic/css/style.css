@@ -31,8 +31,14 @@ body {
   list-style: decimal;
   margin: 10px 0px;
 }
+#menu-lateral{
+ background-color:black;	
+
+}
 
 .button.ng-hide{
   display:none;
 }
 
+.angular-google-map-container {height:800px;}
+.scroll{height:100%;}
